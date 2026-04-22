@@ -1,10 +1,15 @@
 import './App.css';
 import Login from './pages/Login';
+<<<<<<< HEAD
 import { useEffect, useState } from 'react';
+=======
+import { useEffect, useRef, useState } from 'react';
+>>>>>>> master
 import  Chat  from './components/chat/Chat';
 import {io} from "socket.io-client"
 
 function App() {
+<<<<<<< HEAD
 const [username, setusername] = useState("")
 const [room, setroom] = useState("")
 const [socket, setsocket] = useState(null)
@@ -41,10 +46,31 @@ useEffect(() => {
   document.body.classList.toggle("dark-mode", isDarkMode)
   localStorage.setItem("theme", isDarkMode ? "dark" : "light")
 }, [isDarkMode])
+=======
+  const [username, setusername] = useState("")
+  const [room, setroom] = useState("")
+  const [socket, setsocket] = useState(null)
+  const [showChat, setshowChat] = useState(false)
+  
+  const joinRoom = (e) =>{
+    e.preventDefault()
+if(username !== "" && room !==""){
+  socket?.emit("joinRoom",room)
+}
+setshowChat(true)
+  }
+  useEffect(() => {
+     setsocket(io("http://localhost:8000"))
+     socket?.on("connection",(msg)=>{
+       console.log(msg)
+     })
+  },[])
+>>>>>>> master
 
 
   return (
   
+<<<<<<< HEAD
     <div className={`container ${isDarkMode ? "dark" : ""}`}>
       <button
         className="themeToggle"
@@ -52,6 +78,9 @@ useEffect(() => {
       >
         {isDarkMode ? "Light" : "Dark"}
       </button>
+=======
+    <div className="container">
+>>>>>>> master
      
   { showChat?  <Chat socket={socket} username={username} room={room} /> :
   <Login username={username} setusername={setusername} setroom={setroom} joinRoom={joinRoom} />}

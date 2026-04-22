@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # justchat
 
 
@@ -91,3 +92,44 @@ For open source projects, say how it is licensed.
 
 ## Project status
 If you have run out of energy or time for your project, put a note at the top of the README saying that development has slowed down or stopped completely. Someone may choose to fork your project or volunteer to step in as a maintainer or owner, allowing your project to keep going. You can also make an explicit request for maintainers.
+=======
+# JustChat 💬
+
+A real-time chat application built with React and Node.js using Socket.io.
+
+## Features
+
+- Real-time messaging with Socket.io
+- Join chat rooms by username and room name
+- Messages display sender, content, and timestamp
+- Send messages with Enter key or send button
+- Auto-scroll to latest message
+
+## Tech Stack
+
+**Frontend**
+- React
+- Socket.io-client
+- Hosted on Netlify
+
+**Backend**
+- Node.js
+- Express
+- Socket.io
+- Hosted on Render
+
+## Getting Started
+
+### Prerequisites
+- Node.js installed
+- npm installed
+
+### Backend Setup
+```bash
+cd server
+npm install
+npm start
+```
+
+Create a `.env` file in the backend folder:
+>>>>>>> master

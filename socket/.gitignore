@@ -13,11 +13,19 @@
 
 # misc
 .DS_Store
+<<<<<<< HEAD
+=======
+.env
+>>>>>>> master
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+<<<<<<< HEAD
 .env
+=======
+
+>>>>>>> master
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
