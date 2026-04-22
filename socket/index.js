@@ -16,7 +16,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: process.env.REACT_APP_CLIENT_URI,
+    origin: "https://a7kictm.netlify.app",
     methods: ["GET", "POST"]
   }
 });
