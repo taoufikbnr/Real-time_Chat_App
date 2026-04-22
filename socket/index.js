@@ -2,6 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const http = require("http");
 const { Server } = require("socket.io");
+require("dotenv").config() 
 
 const app = express();
 app.use(cors());
@@ -15,7 +16,7 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: "https://rad-liger-fa2cba.netlify.app",
+    origin: process.env.REACT_APP_CLIENT_URI,
     methods: ["GET", "POST"]
   }
 });
