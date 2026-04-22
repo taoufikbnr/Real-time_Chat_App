@@ -18,7 +18,7 @@ if(username !== "" && room !==""){
 setshowChat(true)
   }
   useEffect(() => {
-     setsocket(io("http://localhost:8000"))
+     setsocket(io("https://justchat-69vd.onrender.com"))
      socket?.on("connection",(msg)=>{
        console.log(msg)
      })

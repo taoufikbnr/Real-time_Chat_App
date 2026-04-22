@@ -4,7 +4,9 @@ const app = express()
 const {Server} = require("socket.io")
 
 app.use(cors())
-
+app.get("/", (req, res) => {
+  res.send("Server is running ✅")
+})
 const io = new Server({
   cors:{
     origin:"https://rad-liger-fa2cba.netlify.app",
