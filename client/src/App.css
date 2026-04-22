@@ -1,0 +1,20 @@
+body{
+  height: 50vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.container{
+  margin-top: 150px ;
+  width: 50vh;
+  border-radius: 5px;
+  border: 1px solid rgb(255, 0, 98);
+  overflow: hidden;
+}
+.username{
+  font-weight: bold;
+  color:  rgb(255, 0, 98);
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
