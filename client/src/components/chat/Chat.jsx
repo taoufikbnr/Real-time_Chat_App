@@ -12,11 +12,13 @@ const Chat = ({socket,username,room}) => {
         room :room,
         username:username,
         message:currentMessage,
-        time:new Date(Date.now()).getHours() + 
-         ":" + new Date(Date.now()).getMinutes() 
+        time: new Date().getHours() + ":" + 
+        String(new Date().getMinutes()).padStart(2, "0")
+
       }
       await socket.emit("sendMessage",message)
       setmessageList([...messageList,message])
+      setcurrentMessage("")
     }
   }
   useEffect(() => {
@@ -29,10 +31,16 @@ const Chat = ({socket,username,room}) => {
     scrollRef.current?.scrollIntoView({behavior:"smooth"})
 }, [messageList])
 
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault()
+      sendMessage()
+    }
+  }
   return (
     <div className='chat'>
         <div className="chatHeader">
-        <h5>Live Chat on {room}</h5>
+        <h5>Room #{room}</h5>
         </div>
     <div className='chatBody'>
     {messageList.map((el,i)=> 
@@ -46,7 +54,11 @@ const Chat = ({socket,username,room}) => {
         </div>)}
     </div>
         <div className="chatFooter">
-          <input type="text" className="chatInput" placeholder='send message' onChange={(e)=>setcurrentMessage(e.target.value)} />
+          <input type="text" className="chatInput" placeholder='Type your message...'
+           value={currentMessage}
+           onChange={(e)=>setcurrentMessage(e.target.value)}
+           onKeyDown={handleKeyDown}
+           />
           <button onClick={sendMessage} className="chatButton">&#10147;</button>
         </div>
         
