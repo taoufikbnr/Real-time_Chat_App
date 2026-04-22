@@ -9,12 +9,18 @@ const [username, setusername] = useState("")
 const [room, setroom] = useState("")
 const [socket, setsocket] = useState(null)
 const [showChat, setshowChat] = useState(false)
-const [isDarkMode, setIsDarkMode] = useState(() => localStorage.getItem("theme") === "dark")
+const [isDarkMode, setIsDarkMode] = useState(() => {
+  const savedTheme = localStorage.getItem("theme")
+  return savedTheme ? savedTheme === "dark" : true
+})
+const [chatType, setChatType] = useState("public")
 
 const joinRoom = (e) => {
   e.preventDefault()
-  if(username !== "" && room !== ""){
-    socket?.emit("joinRoom", room)
+  const targetRoom = chatType === "public" ? "9ata3 w Rayech" : room
+  if(username !== "" && targetRoom !== ""){
+    setroom(targetRoom)
+    socket?.emit("joinRoom", targetRoom)
     setshowChat(true)
   }
 }
@@ -57,7 +63,14 @@ useEffect(() => {
       </button>
      
   { showChat?  <Chat socket={socket} username={username} room={room} /> :
-  <Login username={username} setusername={setusername} setroom={setroom} joinRoom={joinRoom} />}
+  <Login
+    username={username}
+    setusername={setusername}
+    setroom={setroom}
+    joinRoom={joinRoom}
+    chatType={chatType}
+    setChatType={setChatType}
+  />}
 
    </div>
   );

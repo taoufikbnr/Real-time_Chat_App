@@ -4,7 +4,9 @@ const Chat = ({socket,username,room}) => {
 
   const [currentMessage, setcurrentMessage] = useState("")
   const [messageList, setmessageList] = useState([])
+  const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const scrollRef = useRef()
+  const emojis = ["😀", "😂", "😍", "😎", "😭", "🔥", "👍", "❤️", "🎉", "🙏"]
 
   const sendMessage = async() =>{
     if(currentMessage !== ""){
@@ -36,6 +38,11 @@ const Chat = ({socket,username,room}) => {
       sendMessage()
     }
   }
+
+  const addEmoji = (emoji) => {
+    setcurrentMessage((prev) => prev + emoji)
+    setShowEmojiPicker(false)
+  }
   return (
     <div className='chat'>
         <div className="chatHeader">
@@ -53,6 +60,29 @@ const Chat = ({socket,username,room}) => {
         </div>)}
     </div>
         <div className="chatFooter">
+          <div className="emojiWrapper">
+            <button
+              type="button"
+              className="emojiToggle"
+              onClick={() => setShowEmojiPicker((prev) => !prev)}
+            >
+              🙂
+            </button>
+            {showEmojiPicker && (
+              <div className="emojiPicker">
+                {emojis.map((emoji) => (
+                  <button
+                    key={emoji}
+                    type="button"
+                    className="emojiItem"
+                    onClick={() => addEmoji(emoji)}
+                  >
+                    {emoji}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
           <input type="text" className="chatInput" placeholder='Type your message...'
            value={currentMessage}
            onChange={(e)=>setcurrentMessage(e.target.value)}

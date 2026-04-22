@@ -20,6 +20,54 @@
   color: #f3f4f6;
 }
 
+.loginSubtitle {
+  margin: -4px 0 8px;
+  text-align: center;
+  font-size: 0.86rem;
+  color: #6b7280;
+}
+
+.container.dark .loginSubtitle {
+  color: #9ca3af;
+}
+
+.chatTypeSwitch {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+  margin-bottom: 4px;
+}
+
+.chatTypeButton {
+  border: 1px solid #d1d5db;
+  border-radius: 9px;
+  background: #f9fafb;
+  color: #374151;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease;
+}
+
+.chatTypeButton.active {
+  border-color: #6366f1;
+  background: rgba(99, 102, 241, 0.1);
+  color: #4338ca;
+}
+
+.container.dark .chatTypeButton {
+  border-color: #374151;
+  background: #1f2937;
+  color: #d1d5db;
+}
+
+.container.dark .chatTypeButton.active {
+  border-color: #818cf8;
+  background: rgba(99, 102, 241, 0.2);
+  color: #c7d2fe;
+}
+
 .loginInput {
   width: 100%;
   padding: 12px 14px;

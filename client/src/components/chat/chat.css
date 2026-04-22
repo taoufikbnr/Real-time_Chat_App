@@ -113,6 +113,7 @@
 .chatFooter {
   width: 100%;
   display: flex;
+  align-items: center;
   gap: 10px;
   padding: 12px;
   border-top: 1px solid #e5e7eb;
@@ -157,6 +158,63 @@
   box-shadow: 0 0 0 3px rgba(129, 140, 248, 0.28);
 }
 
+.emojiWrapper {
+  position: relative;
+}
+
+.emojiToggle {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #d1d5db;
+  border-radius: 10px;
+  background: #f9fafb;
+  cursor: pointer;
+  font-size: 1.1rem;
+}
+
+.emojiPicker {
+  position: absolute;
+  bottom: 52px;
+  left: 0;
+  width: 220px;
+  padding: 8px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 6px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #ffffff;
+  box-shadow: 0 12px 30px rgba(17, 24, 39, 0.15);
+}
+
+.emojiItem {
+  border: none;
+  background: transparent;
+  font-size: 1.05rem;
+  padding: 6px 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.emojiItem:hover {
+  background: #f3f4f6;
+}
+
+.container.dark .emojiToggle {
+  background: #1f2937;
+  border-color: #374151;
+}
+
+.container.dark .emojiPicker {
+  background: #1f2937;
+  border-color: #374151;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
+}
+
+.container.dark .emojiItem:hover {
+  background: #111827;
+}
+
 .chatButton {
   min-width: 46px;
   border: none;
@@ -166,6 +224,7 @@
   font-size: 1rem;
   cursor: pointer;
   transition: transform 0.15s ease, box-shadow 0.2s ease;
+  padding: 10px;
 }
 
 .chatButton:hover {
