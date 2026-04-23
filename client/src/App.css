@@ -19,7 +19,10 @@ body.dark-mode {
   background: radial-gradient(circle at top, #121829 0%, #0f172a 45%, #0b1120 100%);
   color: #e5e7eb;
 }
-
+.withChat{
+  display: flex;
+  gap: 5px;
+}
 .container {
   position: relative;
   width: min(92vw, 430px);

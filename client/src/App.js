@@ -3,6 +3,7 @@ import Login from './pages/Login';
 import { useEffect, useState } from 'react';
 import  Chat  from './components/chat/Chat';
 import {io} from "socket.io-client"
+import Users from './components/Users';
 
 function App() {
 const [username, setusername] = useState("")
@@ -20,29 +21,26 @@ const joinRoom = (e) => {
   const targetRoom = chatType === "public" ? "9ata3 w Rayech" : room
   if(username !== "" && targetRoom !== ""){
     setroom(targetRoom)
-    socket?.emit("joinRoom", targetRoom)
+    socket.emit("joinRoom", { room:targetRoom, username })
     setshowChat(true)
   }
 }
-console.log(process.env.REACT_APP_SOCKET_URL);
 
 useEffect(() => {
-        const newSocket = io(process.env.REACT_APP_SOCKET_URL, {
+    const newSocket = io(process.env.REACT_APP_SOCKET_URL, {
       transports: ["websocket", "polling"],
       reconnectionAttempts: 5,
     })
     setsocket(newSocket)
 
-    // ✅ Listen on newSocket not socket (socket is still null here)
     newSocket.on("connect", () => {
-      console.log("✅ Connected to server!", newSocket.id)
+      console.log(" Connected to server!", newSocket.id)
     })
 
     newSocket.on("connect_error", (err) => {
-      console.log("❌ Connection failed:", err.message)
+      console.log("Connection failed:", err.message)
     })
 
-    // ✅ Cleanup on unmount
     return () => newSocket.disconnect()
   }, [])
 
@@ -53,7 +51,7 @@ useEffect(() => {
 
 
   return (
-  
+  <div className='withChat'>
     <div className={`container ${isDarkMode ? "dark" : ""}`}>
       <button
         className="themeToggle"
@@ -71,7 +69,8 @@ useEffect(() => {
     chatType={chatType}
     setChatType={setChatType}
   />}
-
+   </div>
+   <Users socket={socket}/>
    </div>
   );
 }

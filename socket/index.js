@@ -6,12 +6,11 @@ require("dotenv").config()
 
 const app = express();
 app.use(cors());
-
+const roomUsers = {}
 app.get("/", (req, res) => {
-  res.send("Server is running ✅")
+  res.send("Server is running")
 })
 
-// ✅ Tie express and socket.io together
 const server = http.createServer(app);
 
 const io = new Server(server, {
@@ -24,10 +23,25 @@ const io = new Server(server, {
 io.on("connection", (socket) => {
   console.log("User connected")
 
-  socket.on("joinRoom", (data) => {
-    socket.join(data)
-    console.log(`User: ${socket.id} joined ${data}`)
-  })
+socket.on("joinRoom", (data) => {
+  const { room, username } = data 
+  socket.join(room)
+  socket.data.username = username 
+  socket.data.room = room
+
+  if (!roomUsers[room]) roomUsers[room] = []
+  roomUsers[room].push({ id: socket.id, username })
+
+  io.to(room).emit("roomUsers", roomUsers[room])
+})
+
+socket.on("disconnect", () => {
+  const { room, username } = socket.data
+  if (room && roomUsers[room]) {
+    roomUsers[room] = roomUsers[room].filter(u => u.id !== socket.id)
+    io.to(room).emit("roomUsers", roomUsers[room])
+  }
+})
 
   socket.on("sendMessage", (data) => {
     socket.to(data.room).emit("receiveMessage", data)
@@ -38,7 +52,6 @@ io.on("connection", (socket) => {
   })
 })
 
-// ✅ Single port
 const PORT = process.env.PORT || 8000;
 server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`)

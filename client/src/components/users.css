@@ -1,0 +1,25 @@
+.userList {
+  /* display: flex; */
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+
+.userBadge {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: #f0f0f0;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.onlineDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #1D9E75;
+}
