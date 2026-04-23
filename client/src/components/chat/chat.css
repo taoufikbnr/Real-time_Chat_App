@@ -33,11 +33,14 @@
 }
 
 .chatBody {
+  position: relative;
+  overflow-y: auto;
   flex: 1;
   padding: 16px 14px;
-  overflow-y: auto;
   background: linear-gradient(180deg, #f9fafb 0%, #f3f4f6 100%);
 }
+
+
 
 .container.dark .chatBody {
   background: linear-gradient(180deg, #0f172a 0%, #111827 100%);
@@ -68,7 +71,7 @@
 }
 
 .messageText {
-  padding: 10px 13px;
+  padding: 10px;
   border-radius: 14px;
   background-color: #ffffff;
   border: 1px solid #e5e7eb;
@@ -76,6 +79,7 @@
   max-width: 280px;
   word-break: break-word;
   line-height: 1.35;
+  text-align: center;
 }
 
 .container.dark .messageText {
@@ -111,6 +115,7 @@
 }
 
 .chatFooter {
+  position: relative;
   width: 100%;
   display: flex;
   align-items: center;
@@ -118,6 +123,19 @@
   padding: 12px;
   border-top: 1px solid #e5e7eb;
   background: #ffffff;
+}
+.newMessageBtn {
+  position: absolute;
+  top: -20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #1D9E75;
+  color: white;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 13px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
 }
 
 .container.dark .chatFooter {
