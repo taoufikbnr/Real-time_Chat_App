@@ -1,7 +1,15 @@
 import React from 'react'
 import "./login.css"
 const Login = ({username,setusername,setroom,joinRoom,chatType,setChatType}) => {
+    
   
+  const handleKeyDown = (e) => {
+    if(e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault()
+      joinRoom(e)
+    }
+  }
+
   return (<>
    <div className='login'>
         <h3 className="loginTitle">Welcome Back</h3>
@@ -22,9 +30,9 @@ const Login = ({username,setusername,setroom,joinRoom,chatType,setChatType}) => 
             Private
           </button>
         </div>
-        <input type="text" value={username} className="loginInput"  placeholder="Username"  onChange={(e)=>setusername(e.target.value)}/>
+        <input type="text" value={username} className="loginInput"  placeholder="Username"  onKeyDown={handleKeyDown}  onChange={(e)=>setusername(e.target.value)}/>
         {chatType === "private" && (
-          <input type="number" className="loginInput"  placeholder="Room ID" onChange={(e)=>setroom(e.target.value)}/>
+          <input type="number" className="loginInput"  placeholder="Room ID" onChange={(e)=>setroom(e.target.value)} onKeyDown={handleKeyDown}/>
         )}
         <button  className="loginButton" onClick={(e)=>{joinRoom(e)}
         }>{chatType === "public" ? "Join Public Chat" : "Join Private Chat"}</button>

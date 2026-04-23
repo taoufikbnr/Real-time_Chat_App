@@ -6,27 +6,34 @@ const Chat = ({socket, username, room}) => {
   const [messageList, setmessageList] = useState([])
   const [showEmojiPicker, setShowEmojiPicker] = useState(false)
   const [isAtBottom, setIsAtBottom] = useState(true)
+  const [imagePreview, setImagePreview] = useState(null)
+
   const bottomRef = useRef()
   const scrollRef = useRef()
   const inputRef = useRef()
   const emojiRef = useRef()
+  const fileInputRef = useRef()
 
   const emojis = ["😀", "😂","😁", "😍", "😎", "😘", "😭", "🔥", "👍", "❤️", "🎉", "🙏","💩"]
 
   const sendMessage = async() => {
-    if(currentMessage.trim() !== ""){
+    if (currentMessage.trim() !== "" || imagePreview) {
       const message = {
         room,
         username,
         message: currentMessage,
+        image: imagePreview || null,
         time: new Date().getHours() + ":" + String(new Date().getMinutes()).padStart(2, "0")
       }
       await socket.emit("sendMessage", message)
       setmessageList(prev => [...prev, message]) 
       setcurrentMessage("")
+      setImagePreview(null)
       setIsAtBottom(true) 
     }
   }
+
+
 useEffect(() => {
   const handleClickOutside = (e) => {
     if (emojiRef.current && !emojiRef.current.contains(e.target)) {
@@ -35,6 +42,33 @@ useEffect(() => {
   }
   document.addEventListener("mousedown", handleClickOutside)
   return () => document.removeEventListener("mousedown", handleClickOutside) // ✅ cleanup
+}, [])
+
+  const setPreviewFromFile = (file) => {
+    if (!file || !file.type.startsWith("image/")) return
+    const reader = new FileReader()
+    reader.onload = () => setImagePreview(reader.result)
+    reader.readAsDataURL(file)
+  }
+
+  const handlePasteImage = (e) => {
+    const items = e.clipboardData?.items
+    if (!items) return
+
+    for (const item of items) {
+      if (item.type.startsWith("image/")) {
+        const file = item.getAsFile()
+        setPreviewFromFile(file)
+        inputRef.current?.focus() 
+        e.preventDefault()
+        break
+      }
+    }
+  }
+
+useEffect(() => {
+  window.addEventListener("paste", handlePasteImage)
+  return () => window.removeEventListener("paste", handlePasteImage)
 }, [])
   useEffect(() => {
     socket?.on("receiveMessage", (data) => {
@@ -67,7 +101,12 @@ useEffect(() => {
     // setShowEmojiPicker(false)
     inputRef.current?.focus()
   }
-
+const handleImageUpload = (e) => {
+  const file = e.target.files[0]
+  setPreviewFromFile(file)
+  inputRef.current?.focus() 
+  e.target.value = ""
+}
   return (
     <div className='chat'>
       <div className="chatHeader">
@@ -81,7 +120,12 @@ useEffect(() => {
           <div key={i} className={username === el.username ? "message own" : "message"}>
             <div className="messageTop">
               <div>{el.username}</div>
-              <div className="messageText">{el.message}</div>
+              {el.image && ( 
+                <img src={el.image} alt="sent" className="messageImage" />
+              )}
+              {el.message && (
+                <div className="messageText">{el.message}</div>
+              )}
               <div>{el.time}</div>
             </div>
           </div>
@@ -90,7 +134,13 @@ useEffect(() => {
       </div>
 
       <div className="chatFooter">
-                {!isAtBottom && (
+        {imagePreview && (
+          <div className="imagePreview">
+            <img src={imagePreview} alt="preview" />
+            <button className="removeImage" onClick={() => setImagePreview(null)}>✕</button>
+          </div>
+        )}
+        {!isAtBottom && (
           <div className="newMessageBtn" onClick={() => {
             bottomRef.current?.scrollIntoView({ behavior: "smooth" })
             setIsAtBottom(true)
@@ -98,6 +148,7 @@ useEffect(() => {
             New message ↓
           </div>
         )}
+        <div className="chatFooterControls">
         <div className="emojiWrapper"  ref={emojiRef}>
           <button type="button" className="emojiToggle" onClick={() => setShowEmojiPicker((prev) => !prev)}>
             🙂
@@ -112,16 +163,28 @@ useEffect(() => {
             </div>
           )}
         </div>
+        <button type="button" className="imageToggle" onClick={() => fileInputRef.current.click()}>
+          🖼️
+        </button>
+        <input
+          type="file"
+          accept="image/*"
+          ref={fileInputRef}
+          style={{ display: "none" }}
+          onChange={handleImageUpload}
+        />
         <input
           type="text"
           className="chatInput"
-          placeholder='Type your message...'
+          placeholder='Type message or paste image (Ctrl+V)...'
           value={currentMessage}
           onChange={(e) => setcurrentMessage(e.target.value)}
           onKeyDown={handleKeyDown}
+          onPaste={handlePasteImage}
           ref={inputRef}
         />
-        <button onClick={sendMessage} className="chatButton">&#10147;</button>
+        <button onClick={sendMessage} className="chatButton"><span>➤</span></button>
+        </div>
       </div>
     </div>
   )
