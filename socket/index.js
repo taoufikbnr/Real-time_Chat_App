@@ -17,7 +17,9 @@ const io = new Server(server, {
   cors: {
     origin: "https://a7kictm.netlify.app",
     methods: ["GET", "POST"]
-  }
+  },
+  // Allow image messages (base64 payloads) bigger than the default 1MB.
+  maxHttpBufferSize: 1e7
 });
 
 io.on("connection", (socket) => {
@@ -30,6 +32,7 @@ socket.on("joinRoom", (data) => {
   socket.data.room = room
 
   if (!roomUsers[room]) roomUsers[room] = []
+  roomUsers[room] = roomUsers[room].filter((user) => user.id !== socket.id)
   roomUsers[room].push({ id: socket.id, username })
 
   io.to(room).emit("roomUsers", roomUsers[room])

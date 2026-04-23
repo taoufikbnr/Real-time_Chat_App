@@ -30,6 +30,7 @@ useEffect(() => {
     const newSocket = io(process.env.REACT_APP_SOCKET_URL, {
       transports: ["websocket", "polling"],
       reconnectionAttempts: 5,
+      maxHttpBufferSize: 1e7,
     })
     setsocket(newSocket)
 
@@ -43,6 +44,17 @@ useEffect(() => {
 
     return () => newSocket.disconnect()
   }, [])
+
+useEffect(() => {
+  if (!socket || !showChat || !username || !room) return
+
+  const rejoinRoom = () => {
+    socket.emit("joinRoom", { room, username })
+  }
+
+  socket.on("connect", rejoinRoom)
+  return () => socket.off("connect", rejoinRoom)
+}, [socket, showChat, username, room])
 
 useEffect(() => {
   document.body.classList.toggle("dark-mode", isDarkMode)

@@ -1,5 +1,7 @@
-import React, { useEffect, useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import "./chat.css"
+
+const MAX_IMAGE_SIZE_BYTES = 1024 * 1024
 
 const Chat = ({socket, username, room}) => {
   const [currentMessage, setcurrentMessage] = useState("")
@@ -43,15 +45,20 @@ useEffect(() => {
   document.addEventListener("mousedown", handleClickOutside)
   return () => document.removeEventListener("mousedown", handleClickOutside) // ✅ cleanup
 }, [])
-
+  
   const setPreviewFromFile = (file) => {
     if (!file || !file.type.startsWith("image/")) return
+    if (file.size > MAX_IMAGE_SIZE_BYTES) {
+      window.alert("Image is too large. Please upload an image under 1MB.")
+      return
+    }
+
     const reader = new FileReader()
     reader.onload = () => setImagePreview(reader.result)
     reader.readAsDataURL(file)
-  }
+ }
 
-  const handlePasteImage = (e) => {
+ const handlePasteImage = useCallback((e) => {
     const items = e.clipboardData?.items
     if (!items) return
 
@@ -64,15 +71,15 @@ useEffect(() => {
         break
       }
     }
-  }
+  }, [])
 
 useEffect(() => {
   window.addEventListener("paste", handlePasteImage)
   return () => window.removeEventListener("paste", handlePasteImage)
-}, [])
+}, [handlePasteImage])
   useEffect(() => {
     socket?.on("receiveMessage", (data) => {
-      setmessageList(prev => [...prev, data]) 
+      setmessageList(prev => [...prev, data])  
     })
     return () => socket?.off("receiveMessage") 
   }, [socket]) 
