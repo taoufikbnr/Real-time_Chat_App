@@ -1,8 +1,13 @@
 .userList {
-  /* display: flex; */
+  display: flex;
   gap: 6px;
   flex-wrap: wrap;
-  margin-top: 8px;
+  margin: 10px;
+}
+@media (min-width: 768px) {
+  .userList {
+    flex-direction: column;
+  }
 }
 
 .userBadge {
@@ -15,6 +20,8 @@
   background: #f0f0f0;
   color: #333;
   margin-bottom: 10px;
+  width: max-content;
+  height: max-content;
 }
 
 .onlineDot {

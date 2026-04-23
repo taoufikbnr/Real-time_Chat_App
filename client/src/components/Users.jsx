@@ -13,10 +13,10 @@ const Users = ({socket}) => {
     <div className="userList">
         Online : {roomUsers?.length}
     {roomUsers.map((user, i) => (
-      <div key={i} className="userBadge">
-        <div className="onlineDot" />
+      <span key={i} className="userBadge">
+        <span className="onlineDot" />
         {user.username}
-      </div>
+      </span>
     ))}
   </div>
   )

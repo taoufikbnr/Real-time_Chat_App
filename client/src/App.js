@@ -70,7 +70,7 @@ useEffect(() => {
     setChatType={setChatType}
   />}
    </div>
-   <Users socket={socket}/>
+   {showChat&&<Users socket={socket}/>}
    </div>
   );
 }

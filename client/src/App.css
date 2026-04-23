@@ -23,6 +23,12 @@ body.dark-mode {
   display: flex;
   gap: 5px;
 }
+@media (max-width: 768px) {
+  .withChat {
+    flex-direction: column;
+    align-items: center;
+  }
+}
 .container {
   position: relative;
   width: min(92vw, 430px);
