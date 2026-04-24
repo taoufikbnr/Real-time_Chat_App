@@ -12,6 +12,7 @@ const Login = ({username,setusername,setroom,joinRoom,chatType,setChatType}) => 
 
   return (<>
    <div className='login'>
+        <img src='./protect1.png' alt='guardian' className='login-img' />
         <h3 className="loginTitle">Welcome Back</h3>
         <p className="loginSubtitle">Choose your chat type</p>
         <div className="chatTypeSwitch">

@@ -7,7 +7,13 @@
   justify-content: center;
   gap: 12px;
 }
-
+.login-img{
+  width: 50%;
+  align-self: center;
+}
+.container.dark  .login-img{
+  filter: invert(1);
+}
 .loginTitle {
   margin: 0 0 12px;
   font-size: 1.5rem;
